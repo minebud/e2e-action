@@ -1,0 +1,7 @@
+{
+  "name": "@minebud/e2e-action",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test" },
+  "engines": { "node": ">=20" }
+}

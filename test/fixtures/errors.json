@@ -1,0 +1,1 @@
+{"api":{"schema":"minebud-e2e-cli/1","exitCode":3,"error":{"code":"unauthorized","message":"API denied <script>|[a](http://evil)","details":{"status":401}}},"invalid":{"schema":"minebud-e2e-cli/1","exitCode":2,"error":{"code":"invalid_bundle","message":"A test bundle was invalid."}}}

@@ -1,0 +1,41 @@
+name: CI
+on: {push: {branches: [main]}, pull_request: {}}
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test
+      - name: Download and verify the pinned SDK, then exercise it offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(node -p "JSON.parse(require('node:fs').readFileSync('sdk-pins.json','utf8')).js.version")
+          archive="$RUNNER_TEMP/minebud-e2e.tgz"
+          curl --fail --silent --show-error --max-time 60 --proto '=https' \
+            "https://minebud.dev/e2e/minebud-e2e-${version}.tgz" --output "$archive"
+          node --input-type=module - "$archive" <<'NODE'
+          import { readFileSync } from 'node:fs';
+          import { createHash, timingSafeEqual } from 'node:crypto';
+          const pins = JSON.parse(readFileSync('sdk-pins.json', 'utf8'));
+          const actual = createHash('sha256').update(readFileSync(process.argv[2])).digest();
+          if (!timingSafeEqual(actual, Buffer.from(pins.js.sha256, 'hex'))) throw new Error('SDK integrity mismatch');
+          NODE
+          MINEBUD_E2E_TEST_TGZ="$archive" node --test test/integration.test.mjs
+      - id: e2e
+        uses: ./
+        with:
+          api-key: ''
+          on-missing-key: skip
+      - name: Assert the empty-key path skipped
+        env:
+          STATUS: ${{ steps.e2e.outputs.status }}
+        run: test "$STATUS" = skipped

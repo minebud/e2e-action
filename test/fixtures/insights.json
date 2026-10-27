@@ -1,0 +1,389 @@
+{
+  "_fixtureNotes": "Reduced SDK 0.8.0 warps shape. Spec-contract additions: diagnostics.performance.insights[], localFile, nativeProfile.top[].packUuid and billing.",
+  "schema": "minebud-e2e-result/1",
+  "runId": "run_insights",
+  "name": "warps-golden",
+  "status": "passed",
+  "server": {
+    "type": "endstone",
+    "speed": "standard"
+  },
+  "summary": {
+    "tests": 2,
+    "passed": 2,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0
+  },
+  "metrics": {
+    "mspt.p95": 7.4,
+    "tps.mean": 20,
+    "memory.rssMaxMb": 512,
+    "scriptErrors.count": 2
+  },
+  "tests": [],
+  "diagnostics": {
+    "performance": {
+      "insights": [
+        {
+          "rule": "error-0",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 1,
+          "message": "x%0A::set-output name=a::b\r\n<script>|[a](http://evil)",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-1",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 2,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-2",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 3,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-3",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 4,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-4",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 5,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-5",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 6,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-6",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 7,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-7",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 8,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-8",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 9,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-9",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 10,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-10",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 11,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "error-11",
+          "severity": "error",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 12,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-0",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 1,
+          "message": "x%0A::set-output name=a::b\r\n<script>|[a](http://evil)",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-1",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 2,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-2",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 3,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-3",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 4,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-4",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 5,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-5",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 6,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-6",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 7,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-7",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 8,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-8",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 9,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-9",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 10,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-10",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 11,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "warning-11",
+          "severity": "warning",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 12,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-0",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 1,
+          "message": "x%0A::set-output name=a::b\r\n<script>|[a](http://evil)",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-1",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 2,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-2",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 3,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-3",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 4,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-4",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 5,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-5",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 6,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-6",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 7,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-7",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 8,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-8",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 9,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-9",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 10,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-10",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 11,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "info-11",
+          "severity": "info",
+          "file": "scripts/main.js",
+          "localFile": "scripts/main.js",
+          "line": 12,
+          "message": "Avoid work on every tick",
+          "fix": "Cache the result."
+        },
+        {
+          "rule": "outside",
+          "severity": "error",
+          "file": "outside.js",
+          "localFile": "../outside.js",
+          "line": 1,
+          "message": "Not contained",
+          "fix": "Inspect locally."
+        }
+      ],
+      "nativeProfile": {
+        "top": [
+          {
+            "function": "Engine::tick",
+            "selfMs": 900
+          },
+          {
+            "function": "tick",
+            "selfMs": 15,
+            "file": "scripts/main.js",
+            "line": 4,
+            "packUuid": "6f1d2c64-0b1e-4c4a-9a51-3f0a7c1e2b01"
+          }
+        ]
+      }
+    }
+  },
+  "billing": {
+    "version": 1,
+    "state": "charged",
+    "speed": "standard",
+    "multiplier": 1,
+    "tickLimit": 1000,
+    "ticks": 100,
+    "chargedCredits": 100,
+    "reservedCredits": 1000
+  }
+}

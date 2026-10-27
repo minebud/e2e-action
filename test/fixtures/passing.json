@@ -1,0 +1,13 @@
+{
+  "_fixtureNotes": "Derived from the real SDK 0.8.0 warps golden result; reduced to CI fields and changed the failing test to passed. No spec-only diagnostics fields.",
+  "schema": "minebud-e2e-result/1", "runId": "run_golden", "name": "warps-golden", "status": "passed", "avgTps": 20,
+  "server": {"type":"endstone","speed":"standard","software":"Endstone 0.11.13","version":"0.11.13+1.26.52.3"},
+  "summary": {"tests":2,"passed":2,"failed":0,"errored":0,"skipped":0},
+  "metrics": {"mspt.p95":7.4,"mspt.max":18.2,"tps.mean":20,"memory.rssMaxMb":512,"scriptErrors.count":2},
+  "tests": [
+    {"id":"t1","name":"warp menu teleports to spawn","status":"passed","durationMs":1400,"steps":[{"id":"s2","op":"bot.command","status":"passed","result":"Warps"}]},
+    {"id":"t2","name":"two players chat","status":"passed","durationMs":1160,"steps":[{"id":"s3","op":"bot.chat","status":"passed","result":"<Friend> hello Tester"}]}
+  ],
+  "diagnostics": {"schema":"diagnostics/v1","performance":{"msptMs":{"max":18.2,"p50":3.1,"p95":7.4,"p99":11.8,"samples":3},"tps":{"max":20,"p50":20,"p95":20,"p99":19.6,"samples":3}},"resources":{"cpuUsageMs":1536,"memoryPeakBytes":536870912}},
+  "artifacts":{"logs":[],"profiles":[],"screenshots":[]}
+}

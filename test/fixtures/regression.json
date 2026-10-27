@@ -1,0 +1,55 @@
+{
+  "_fixtureNotes": "Reduced SDK 0.8.0 warps shape. Spec-contract additions: diagnostics.performance.insights[], localFile, nativeProfile.top[].packUuid and billing.",
+  "schema": "minebud-e2e-result/1",
+  "runId": "run_regression",
+  "name": "warps-golden",
+  "status": "passed",
+  "server": {
+    "type": "endstone",
+    "speed": "standard"
+  },
+  "summary": {
+    "tests": 2,
+    "passed": 2,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0
+  },
+  "metrics": {
+    "mspt.p95": 12,
+    "tps.mean": 20,
+    "memory.rssMaxMb": 512,
+    "scriptErrors.count": 2
+  },
+  "tests": [],
+  "diagnostics": {
+    "performance": {
+      "insights": [],
+      "nativeProfile": {
+        "top": [
+          {
+            "function": "Engine::tick",
+            "selfMs": 900
+          },
+          {
+            "function": "tick",
+            "selfMs": 15,
+            "file": "scripts/main.js",
+            "line": 4,
+            "packUuid": "6f1d2c64-0b1e-4c4a-9a51-3f0a7c1e2b01"
+          }
+        ]
+      }
+    }
+  },
+  "billing": {
+    "version": 1,
+    "state": "charged",
+    "speed": "standard",
+    "multiplier": 1,
+    "tickLimit": 1000,
+    "ticks": 100,
+    "chargedCredits": 100,
+    "reservedCredits": 1000
+  }
+}

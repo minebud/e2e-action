@@ -1,0 +1,85 @@
+name: Minebud E2E
+description: Run Minecraft Bedrock end-to-end suites on Minebud with summaries, annotations, and regression gates.
+author: Minebud
+branding:
+  icon: check-square
+  color: green
+inputs:
+  api-key:
+    description: E2E-scoped Minebud CI key. Empty values follow on-missing-key.
+    required: true
+  sdk:
+    description: SDK to install (js or python).
+    default: js
+  sdk-version:
+    description: Numeric SDK version override. Empty uses the integrity-verified pin.
+    default: ''
+  working-directory:
+    description: Suite working directory inside GITHUB_WORKSPACE.
+    default: '.'
+  config:
+    description: Suite config path relative to working-directory, inside GITHUB_WORKSPACE.
+    default: minebud-e2e.json
+  paths:
+    description: Whitespace-separated test paths relative to working-directory, inside GITHUB_WORKSPACE.
+    default: ''
+  junit:
+    description: Optional JUnit output path relative to working-directory, inside GITHUB_WORKSPACE.
+    default: ''
+  queue-timeout-minutes:
+    description: Slot waiting budget in minutes (1–360), when supported by the SDK.
+    default: '15'
+  wait-timeout-minutes:
+    description: Run waiting budget in minutes (1–360). Legacy SDKs clamp to 15 minutes.
+    default: '30'
+  on-missing-key:
+    description: Empty API key behavior (skip or fail).
+    default: skip
+  fail-on-infra:
+    description: Fail on SDK API/auth/network, quota, or run infrastructure errors.
+    default: 'true'
+  annotations:
+    description: Emit contained-source annotations, capped at 10 per severity.
+    default: 'true'
+  summary:
+    description: Write the GitHub job summary.
+    default: 'true'
+  max-mspt-p95:
+    description: Maximum MSPT p95 in milliseconds. Empty disables the check.
+    default: ''
+  max-script-hotspot-ms:
+    description: Maximum customer-script hotspot self time in milliseconds. Empty disables the check.
+    default: ''
+  max-script-errors:
+    description: Maximum script error count. Empty disables the check.
+    default: ''
+  fail-on-insight-severity:
+    description: Fail on insights at least this severity (error, warning, or none).
+    default: none
+  baseline:
+    description: Baseline branch (default-branch, a branch name, or none).
+    default: none
+  max-regression-pct:
+    description: Maximum regression percentage versus baseline, together with the absolute noise floor.
+    default: '20'
+  min-regression-ms:
+    description: Absolute regression noise floor in milliseconds; both limits must be exceeded.
+    default: '2'
+outputs:
+  run-id:
+    description: Minebud run identifier, or empty when no result exists.
+  status:
+    description: Result status, skipped for an absent key, or error without a result.
+  result-path:
+    description: Absolute path to the result JSON, or empty without a result.
+  dashboard-url:
+    description: Validated dashboard run URL; run details expire after 24 hours.
+  mspt-p95:
+    description: MSPT p95 in milliseconds, or empty if unavailable.
+  script-hotspot-ms:
+    description: Maximum customer-script hotspot self time, or empty if unavailable.
+  regressions:
+    description: Single-line JSON array of breached threshold and regression checks.
+runs:
+  using: node24
+  main: src/main.mjs

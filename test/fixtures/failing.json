@@ -1,0 +1,8 @@
+{
+  "_fixtureNotes":"Reduced real SDK 0.8.0 warps result, with spec-contract addition tests[].steps[].source.",
+  "schema":"minebud-e2e-result/1","runId":"run_golden","name":"warps-golden","status":"failed","avgTps":20,
+  "server":{"type":"endstone","speed":"standard"},"summary":{"tests":2,"passed":1,"failed":1,"errored":0,"skipped":0},
+  "metrics":{"mspt.p95":7.4,"tps.mean":20,"memory.rssMaxMb":512,"scriptErrors.count":2},
+  "tests":[{"id":"t1","name":"warp menu teleports to spawn","status":"passed","steps":[]},{"id":"t2","name":"two players chat","status":"failed","error":{"actual":1,"code":"expectation_failed","expected":{"count":{"eq":0},"negate":false,"op":"hasCount"},"message":"errors hasCount"},"steps":[{"id":"s6","mode":"post","op":"expect","status":"failed","actual":1,"error":{"actual":1,"code":"expectation_failed","expected":{"count":{"eq":0},"negate":false,"op":"hasCount"},"message":"errors hasCount"},"source":{"file":"tests/warps.e2e.mjs","line":42,"column":7}}]}],
+  "diagnostics":{"schema":"diagnostics/v1","performance":{}}
+}

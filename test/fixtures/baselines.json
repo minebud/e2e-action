@@ -1,0 +1,6 @@
+{
+  "normal":{"baseline":{"runId":"run_base","sha":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","finishedAt":"2026-10-27T12:00:00.000Z","msptP95":5,"scriptHotMs":10,"scriptHotFn":"tick","tpsMean":20}},
+  "mismatchedSpeed":{"baseline":{"runId":"run_base","sha":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","finishedAt":1793102400,"msptP95":5,"scriptHotMs":10,"scriptHotFn":"tick","tpsMean":20,"serverType":"endstone","speed":"fast"}},
+  "belowNoiseFloor":{"baseline":{"runId":"run_base","sha":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","finishedAt":1793102400,"msptP95":6,"scriptHotMs":10,"scriptHotFn":"tick","tpsMean":20}},
+  "missing":{"baseline":null}
+}
