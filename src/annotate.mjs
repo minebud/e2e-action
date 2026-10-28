@@ -2,6 +2,8 @@ import path from 'node:path';
 import { lstatSync, realpathSync } from 'node:fs';
 import { SEVERITIES, insights as insightRows, topHotspot } from './thresholds.mjs';
 
+export const HOTSPOT_ANNOTATION_MS = 50;
+
 const controls = /[\u0000-\u001f\u007f-\u009f]/u;
 const array = (value) => Array.isArray(value) ? value : [];
 const positiveInteger = (value) => Number.isSafeInteger(value) && value > 0;
@@ -119,9 +121,10 @@ export function buildAnnotations(result, options = {}) {
   addDigest('error');
   const hotspot = topHotspot(result);
   const source = locationSource(hotspot?.location, { file: hotspot?.localFile, line: hotspot?.line });
-  if (source?.file && positiveInteger(source.line)) {
-    const escalated = array(options.thresholds?.checks).some((check) =>
-      ['max-script-hotspot-ms', 'hotspot-regression'].includes(check?.id) && check.status === 'breach');
+  const escalated = array(options.thresholds?.checks).some((check) =>
+    ['max-script-hotspot-ms', 'hotspot-regression'].includes(check?.id) && check.status === 'breach');
+  // Small hotspots on idle add-ons are noise in a PR; annotate from HOTSPOT_ANNOTATION_MS or on a breach.
+  if (source?.file && positiveInteger(source.line) && (escalated || hotspot.selfMs >= (options.hotspotFloorMs ?? HOTSPOT_ANNOTATION_MS))) {
     candidates.push(candidate(escalated ? 'error' : 'warning', 'Script hotspot',
       `${text(hotspot.function ?? hotspot.name ?? hotspot.fn ?? 'unknown')} self time ${hotspot.selfMs} ms`, source));
   }

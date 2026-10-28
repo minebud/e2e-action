@@ -108,6 +108,12 @@ test('contained paths reject traversal, controls, outside absolute paths, and sy
   assert.deepEqual(annotations.overflow.map((item) => item.reason), ['invalid path', 'invalid line', 'invalid column']);
 });
 
+test('memory peak is rounded to one decimal (real host value 971.5703125 MB)', (t) => {
+  const ctx = context(workspace(t));
+  ctx.result.metrics['memory.rssMaxMb'] = 971.5703125;
+  assert.ok(renderSummary(ctx).includes('Memory peak (RSS) | 971.6 MB'));
+});
+
 test('summary renders all metrics, failures, comparisons, thresholds, billing and overflow', (t) => {
   const options = workspace(t);
   const ctx = context(options);

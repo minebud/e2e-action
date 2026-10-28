@@ -20,7 +20,8 @@ function context(t) {
     env: { GITHUB_REPOSITORY: 'minebud/example', GITHUB_SHA: sha }, event: {},
     thresholds: { checks: [], breached: false, regressions: [] }, annotations: { emitted: [], lines: [], overflow: [] } };
 }
-const annotations = (ctx) => buildAnnotations(ctx.result, ctx);
+// Location tests place annotations; the hotspot size floor has its own test.
+const annotations = (ctx) => buildAnnotations(ctx.result, { hotspotFloorMs: 0, ...ctx });
 function insightOnly(ctx) {
   ctx.result.tests = [];
   ctx.result.diagnostics.performance.nativeProfile.top = [];

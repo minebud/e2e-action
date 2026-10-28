@@ -62,7 +62,7 @@ export function evaluateThresholds(result, inputs, baseline) {
       const validBase = typeof base === 'number' && Number.isFinite(base) && base >= 0;
       let reason;
       if (mismatch) reason = 'Baseline server type or speed does not match this run.';
-      else if (!baseline) reason = 'Baseline is missing or could not be fetched.';
+      else if (!baseline) reason = 'No baseline yet: no passed run of this suite on the baseline branch (or it could not be fetched; see warnings).';
       else if (!validBase) reason = 'Baseline metric is missing.';
       else if (current === null) reason = key === 'scriptHotMs' ? 'Customer script profile is missing; enable server.scriptProfiler.' : 'Current MSPT p95 is missing.';
       const limit = validBase ? base * (1 + inputs['max-regression-pct'] / 100) : null;

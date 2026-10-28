@@ -78,6 +78,7 @@ export function renderSummary(ctx = {}) {
       .replace(/\\/g, '\\\\')
       .replace(/&#39;|[`*_\[\]()#|~!{}]/g, (part) => part === '&#39;' ? part : `\\${part}`);
   };
+  const round1 = (value) => finite(value) ? Math.round(value * 10) / 10 : value;
   const number = (value, suffix = '') => finite(value) ? `${escape(value)}${suffix}` : 'unavailable';
   const location = (item, legacy) => {
     const source = locationSource(item?.location, legacy);
@@ -141,7 +142,7 @@ export function renderSummary(ctx = {}) {
     `| Tests passed / failed | ${number(passed)} / ${number(failureCount)} |`,
     `| TPS mean | ${number(metric(result, 'tps.mean') ?? (finite(result.avgTps) ? result.avgTps : null))} |`,
     `| MSPT p95 | ${number(mspt, ' ms')}${delta} |`,
-    `| Memory peak (RSS) | ${number(metric(result, 'memory.rssMaxMb'), ' MB')} |`,
+    `| Memory peak (RSS) | ${number(round1(metric(result, 'memory.rssMaxMb')), ' MB')} |`,
     `| Script errors | ${number(metric(result, 'scriptErrors.count'))} |`,
     `| Top hotspot | ${hotspot ? `${escape(hotspot.function ?? hotspot.name ?? hotspot.fn ?? 'unknown', 300)} — ${number(hotspot.selfMs, ' ms')}${hotspotLocation ? ` — ${hotspotLocation}` : ''}` : 'unavailable'} |`,
   ]);

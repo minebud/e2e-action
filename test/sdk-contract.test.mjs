@@ -19,7 +19,7 @@ function workspace(t) {
 }
 
 test('SDK 0.9.0 insights, hotspot and digest annotate their TypeScript sources at host severities', (t) => {
-  const { emitted } = buildAnnotations(fixture.result, { ...workspace(t), digest: fixture.digest });
+  const { emitted } = buildAnnotations(fixture.result, { ...workspace(t), digest: fixture.digest, hotspotFloorMs: 0 });
   const rows = emitted.map((item) => [item.level, item.title, `${item.file}:${item.line}`]);
   const high = fixture.result.insights.filter((insight) => insight.severity === 'high');
   assert.ok(high.length > 0);
