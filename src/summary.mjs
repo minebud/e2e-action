@@ -108,6 +108,9 @@ export function renderSummary(ctx = {}) {
     if (output.length) { sections.push(prefix + output.join('')); used += bytes; }
   };
   const header = [`## Minebud E2E`, '', `Status: ${status}`];
+  // Tests can pass while a threshold fails the job; say so first so the summary matches the red check.
+  const breaches = (Array.isArray(ctx.thresholds?.checks) ? ctx.thresholds.checks : []).filter((check) => check?.status === 'breach');
+  if (breaches.length) header.push(`**Check failed:** ${breaches.map((check) => escape(String(check.label ?? check.id ?? 'threshold'), 120)).join(', ')}`);
   if (result?.runId != null) {
     const runId = result.runId;
     header.push(`Run: ${escape(runId, 200)}${typeof runId === 'string' && /^[A-Za-z0-9_-]{1,64}$/.test(runId)

@@ -108,6 +108,16 @@ test('contained paths reject traversal, controls, outside absolute paths, and sy
   assert.deepEqual(annotations.overflow.map((item) => item.reason), ['invalid path', 'invalid line', 'invalid column']);
 });
 
+test('a threshold breach is stated under the status even when tests passed', (t) => {
+  const ctx = context(workspace(t));
+  ctx.thresholds = { breached: true, checks: [{ id: 'fail-on-insight-severity', label: 'Insights at least high', status: 'breach' }, { id: 'mspt-regression', label: 'MSPT p95 regression (ms)', status: 'pass' }] };
+  const output = renderSummary(ctx);
+  assert.ok(output.includes('**Check failed:** Insights at least high'));
+  assert.ok(!output.includes('MSPT p95 regression \\(ms\\),'));
+  ctx.thresholds = { breached: false, checks: [] };
+  assert.ok(!renderSummary(ctx).includes('Check failed'));
+});
+
 test('memory peak is rounded to one decimal (real host value 971.5703125 MB)', (t) => {
   const ctx = context(workspace(t));
   ctx.result.metrics['memory.rssMaxMb'] = 971.5703125;
