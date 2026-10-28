@@ -9,8 +9,9 @@ import { run } from '../src/main.mjs';
 import { installSdk } from '../src/install.mjs';
 import { createExec } from '../src/github.mjs';
 
-const artifact = process.env.MINEBUD_E2E_TEST_TGZ;
-test('pinned real JS SDK installs offline and completes the golden suite on a local mock API', { skip: !artifact, timeout: 120_000 }, async (t) => {
+// The tarball is the bundled distributable; the golden suite and mock runner come from an SDK checkout.
+const artifact = process.env.MINEBUD_E2E_TEST_TGZ, sdkSource = process.env.MINEBUD_E2E_TEST_SDK_SRC;
+test('pinned real JS SDK installs offline and completes the golden suite on a local mock API', { skip: !artifact || !sdkSource, timeout: 120_000 }, async (t) => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'minebud-integration-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   const workspace = path.join(root, 'workspace'); const runnerTemp = path.join(root, 'temp');
@@ -23,15 +24,14 @@ test('pinned real JS SDK installs offline and completes the golden suite on a lo
   for (const key of Object.keys(env)) if (key.startsWith('INPUT_') && key !== 'INPUT_API-KEY') delete env[key];
   const bytes = await readFile(artifact);
   const offlineFetch = async (url, options) => {
-    assert.equal(url, 'https://minebud.dev/e2e/minebud-e2e-0.8.0.tgz');
+    assert.equal(url, 'https://minebud.dev/e2e/minebud-e2e-0.9.0.tgz');
     assert.equal(options.redirect, 'error');
     return new Response(bytes);
   };
   const installed = await installSdk({ runnerTemp, env: { PATH: process.env.PATH, HOME: process.env.HOME }, fetch: offlineFetch, exec, warning: () => assert.fail('pinned install must verify integrity') });
-  const packageRoot = path.dirname(path.dirname(installed.args[0]));
-  const golden = path.join(packageRoot, 'fixtures/golden/warps');
+  const golden = path.join(sdkSource, 'fixtures/golden/warps');
   await cp(golden, workspace, { recursive: true });
-  const server = spawn(process.execPath, [path.join(packageRoot, 'tools/mock-runner/server.js'), '--port', '0', '--world', path.join(golden, 'world.json')], { stdio: ['ignore', 'pipe', 'pipe'] });
+  const server = spawn(process.execPath, [path.join(sdkSource, 'tools/mock-runner/server.js'), '--port', '0', '--world', path.join(golden, 'world.json')], { stdio: ['ignore', 'pipe', 'pipe'] });
   t.after(async () => {
     if (server.exitCode === null && server.signalCode === null) { const closed = once(server, 'close'); server.kill('SIGTERM'); await closed; }
   });
@@ -63,7 +63,7 @@ test('pinned real JS SDK installs offline and completes the golden suite on a lo
   assert.match(summary, /MSPT p95/);
   const runCall = calls.find((call) => call.args.includes('run'));
   assert.ok(runCall);
-  assert.ok(!runCall.args.includes('--wait-for-slot'));
-  assert.equal(runCall.args[runCall.args.indexOf('--wait-timeout') + 1], '900');
-  assert.equal(logs.filter((line) => line.startsWith('::notice::') && line.includes('does not support --wait-for-slot')).length, 1);
+  assert.equal(runCall.args[runCall.args.indexOf('--wait-for-slot') + 1], '900');
+  assert.equal(runCall.args[runCall.args.indexOf('--wait-timeout') + 1], '1800');
+  assert.equal(logs.some((line) => line.includes('does not support --wait-for-slot')), false);
 });

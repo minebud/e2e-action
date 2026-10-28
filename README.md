@@ -10,7 +10,7 @@ The action has no dependencies or build step. GitHub runs the committed JavaScri
 2. Create an E2E-scoped CI API key and save it in `secrets.MINEBUD_API_KEY`.
 3. Add the PR workflow below. Pin the action to a reviewed tag or full commit SHA.
 
-`v1` will be tagged after the CI-capable SDK release. The examples show that intended public tag; until it exists, use the reviewed action commit SHA. The current default pin is JS 0.8.0, which predates CI metadata, slot waiting, and local source additions. This action detects slot-waiting support rather than assuming those additions are shipped.
+Use `minebud/e2e-action@v1` (moves with compatible releases) or pin a release tag/commit SHA. The default SDK pin is JS 0.9.0, which adds CI metadata, slot waiting and source-mapped insight locations.
 
 Set `server.speed` and `server.maxTicks` in `minebud-e2e.json` to bound spending. There are deliberately no speed or max-ticks action inputs: the SDK rejects those CLI flags.
 
@@ -167,7 +167,7 @@ Run details (report, profiles, artifacts) expire **24 h** after the run, and the
 
 ## Installation, concurrency, and SDK compatibility
 
-`sdk-pins.json` pins JS 0.8.0 (SHA-256 `aa0f7011c86355b55e970f7e03784248d375d46adb6cc850a29242f17432b07f`). An explicit version equal to the pin still verifies its checksum. A different `sdk-version` emits a warning that integrity is not verified. Update pins only after reviewing the SDK release and artifact digest.
+`sdk-pins.json` pins JS 0.9.0 (SHA-256 `962332d0e1bb7931644cff874249f8387b40eed13cc5e8ce5fb95faaa6b80e8a`). An explicit version equal to the pin still verifies its checksum. A different `sdk-version` emits a warning that integrity is not verified. Update pins only after reviewing the SDK release and artifact digest.
 
 JavaScript downloads are limited to 32 MiB, use no redirects, time out after about 60 seconds, and retry network/5xx failures up to three attempts. SHA-256 is checked in constant time before offline npm installation with lifecycle scripts disabled. Windows npm invocation quotes action-controlled paths and rejects paths containing command-expansion characters.
 
@@ -193,7 +193,7 @@ SDK 0.9 result contract (pinned by `test/sdk-contract.test.mjs`, generated from 
 ```sh
 node --test
 # Optional: verify the pinned SDK with its bundled local mock API, without network:
-MINEBUD_E2E_TEST_TGZ=/path/to/minebud-e2e-0.8.0.tgz node --test test/integration.test.mjs
+MINEBUD_E2E_TEST_TGZ=/path/to/minebud-e2e-0.9.0.tgz MINEBUD_E2E_TEST_SDK_SRC=/path/to/e2e-sdk-js node --test test/integration.test.mjs
 ```
 
-Fixtures reduce the real SDK 0.8.0 warps result and identify spec-contract additions explicitly. Ordinary tests need no network. The integration test is skipped only when `MINEBUD_E2E_TEST_TGZ` is unset; when set, it verifies and installs that tarball offline, spawns its mock runner, executes its golden suite through the action, and closes the mock process afterward.
+Fixtures reduce the real SDK 0.8.0 warps result (plus the SDK 0.9.0 localized contract fixture) and identify spec-contract additions explicitly. Ordinary tests need no network. The integration test is skipped unless `MINEBUD_E2E_TEST_TGZ` and `MINEBUD_E2E_TEST_SDK_SRC` are set; it verifies and installs that tarball offline, spawns the checkout's mock runner, executes its golden suite through the action, and closes the mock process afterward.
