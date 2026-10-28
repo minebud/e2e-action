@@ -11,7 +11,7 @@ async function setup(t, overrides = {}) {
   const runnerTemp = await mkdtemp(path.join(os.tmpdir(), 'minebud-install-'));
   t.after(() => rm(runnerTemp, { recursive: true, force: true }));
   const calls = [], warnings = [];
-  return { calls, warnings, options: { sdk: 'js', runnerTemp, env: { MINEBUD_API_KEY: 'secret', KEEP: 'yes' },
+  return { calls, warnings, options: { runnerTemp, env: { MINEBUD_API_KEY: 'secret', KEEP: 'yes' },
     exec: async (...args) => { calls.push(args); return { code: 0 }; },
     fetch: async () => new Response('override archive'), warning: (text) => warnings.push(text), platform: 'linux', ...overrides } };
 }
@@ -88,26 +88,6 @@ test('download bounds declared and streamed bytes without retry', async (t) => {
     await assert.rejects(installSdk(s.options), /32 MiB/);
     assert.equal(attempts, 1);
     assert.equal(s.calls.length, 0);
-  }
-});
-
-test('Python pinned requirements, interpreter fallback, and override', async (t) => {
-  for (const override of [false, true]) {
-    const s = await setup(t, { sdk: 'python', version: override ? '9.9.9' : '' });
-    s.options.exec = async (...args) => {
-      s.calls.push(args);
-      return { code: args[0] === 'python3' ? 127 : 0 };
-    };
-    const out = await installSdk(s.options);
-    const root = path.join(s.options.runnerTemp, 'minebud');
-    const req = path.join(root, 'requirements.txt');
-    assert.deepEqual(s.calls[0].slice(0, 2), ['python3', ['--version']]);
-    assert.deepEqual(s.calls[1].slice(0, 2), ['python', ['-m', 'pip', 'install', '--no-index', '--find-links', 'https://minebud.dev/e2e/python/', ...(override ? [] : ['--require-hashes']), '--no-deps', '--only-binary=:all:', '--target', path.join(root, 'py'), '-r', req]]);
-    assert.equal(await readFile(req, 'utf8'), `minebud-e2e==${override ? '9.9.9' : pins.python.version}${override ? '' : ` --hash=sha256:${pins.python.sha256}`}\n`);
-    assert.equal(out.env.PYTHONPATH, path.join(root, 'py'));
-    assert.equal(out.env.MINEBUD_API_KEY, undefined);
-    assert.deepEqual(out.args, ['-m', 'minebud_e2e']);
-    assert.equal(out.command, 'python');
   }
 });
 

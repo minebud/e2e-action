@@ -27,7 +27,7 @@
       "insights": [
         {
           "rule": "error-0",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 1,
@@ -36,7 +36,7 @@
         },
         {
           "rule": "error-1",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 2,
@@ -45,7 +45,7 @@
         },
         {
           "rule": "error-2",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 3,
@@ -54,7 +54,7 @@
         },
         {
           "rule": "error-3",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 4,
@@ -63,7 +63,7 @@
         },
         {
           "rule": "error-4",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 5,
@@ -72,7 +72,7 @@
         },
         {
           "rule": "error-5",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 6,
@@ -81,7 +81,7 @@
         },
         {
           "rule": "error-6",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 7,
@@ -90,7 +90,7 @@
         },
         {
           "rule": "error-7",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 8,
@@ -99,7 +99,7 @@
         },
         {
           "rule": "error-8",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 9,
@@ -108,7 +108,7 @@
         },
         {
           "rule": "error-9",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 10,
@@ -117,7 +117,7 @@
         },
         {
           "rule": "error-10",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 11,
@@ -126,7 +126,7 @@
         },
         {
           "rule": "error-11",
-          "severity": "error",
+          "severity": "high",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 12,
@@ -135,7 +135,7 @@
         },
         {
           "rule": "warning-0",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 1,
@@ -144,7 +144,7 @@
         },
         {
           "rule": "warning-1",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 2,
@@ -153,7 +153,7 @@
         },
         {
           "rule": "warning-2",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 3,
@@ -162,7 +162,7 @@
         },
         {
           "rule": "warning-3",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 4,
@@ -171,7 +171,7 @@
         },
         {
           "rule": "warning-4",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 5,
@@ -180,7 +180,7 @@
         },
         {
           "rule": "warning-5",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 6,
@@ -189,7 +189,7 @@
         },
         {
           "rule": "warning-6",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 7,
@@ -198,7 +198,7 @@
         },
         {
           "rule": "warning-7",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 8,
@@ -207,7 +207,7 @@
         },
         {
           "rule": "warning-8",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 9,
@@ -216,7 +216,7 @@
         },
         {
           "rule": "warning-9",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 10,
@@ -225,7 +225,7 @@
         },
         {
           "rule": "warning-10",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 11,
@@ -234,7 +234,7 @@
         },
         {
           "rule": "warning-11",
-          "severity": "warning",
+          "severity": "medium",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 12,
@@ -243,7 +243,7 @@
         },
         {
           "rule": "info-0",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 1,
@@ -252,7 +252,7 @@
         },
         {
           "rule": "info-1",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 2,
@@ -261,7 +261,7 @@
         },
         {
           "rule": "info-2",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 3,
@@ -270,7 +270,7 @@
         },
         {
           "rule": "info-3",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 4,
@@ -279,7 +279,7 @@
         },
         {
           "rule": "info-4",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 5,
@@ -288,7 +288,7 @@
         },
         {
           "rule": "info-5",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 6,
@@ -297,7 +297,7 @@
         },
         {
           "rule": "info-6",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 7,
@@ -306,7 +306,7 @@
         },
         {
           "rule": "info-7",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 8,
@@ -315,7 +315,7 @@
         },
         {
           "rule": "info-8",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 9,
@@ -324,7 +324,7 @@
         },
         {
           "rule": "info-9",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 10,
@@ -333,7 +333,7 @@
         },
         {
           "rule": "info-10",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 11,
@@ -342,7 +342,7 @@
         },
         {
           "rule": "info-11",
-          "severity": "info",
+          "severity": "low",
           "file": "scripts/main.js",
           "localFile": "scripts/main.js",
           "line": 12,
@@ -351,7 +351,7 @@
         },
         {
           "rule": "outside",
-          "severity": "error",
+          "severity": "high",
           "file": "outside.js",
           "localFile": "../outside.js",
           "line": 1,

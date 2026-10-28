@@ -1,0 +1,344 @@
+{
+  "generatedBy": "e2e-sdk-js localizeResult + digest on fixtures/sourcemap",
+  "result": {
+    "schema": "minebud-e2e-result/1",
+    "runId": "fixture",
+    "name": "shop",
+    "status": "error",
+    "server": {
+      "type": "endstone",
+      "speed": "standard",
+      "version": "latest"
+    },
+    "timings": {},
+    "durationMs": null,
+    "summary": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0
+    },
+    "tests": [],
+    "runAssertions": [],
+    "metrics": {
+      "tps.mean": null,
+      "tps.min": null,
+      "mspt.median": null,
+      "mspt.p95": null,
+      "mspt.p99": null,
+      "mspt.max": null,
+      "memory.rssStartMb": null,
+      "memory.rssMaxMb": null,
+      "memory.rssEndMb": null,
+      "memory.gcPauseMsMax": null,
+      "stalls.count": null,
+      "spikes.count": null,
+      "errors.count": 2,
+      "scriptErrors.count": 2,
+      "pluginErrors.count": 0,
+      "crashes.count": null,
+      "warnings.count": 0,
+      "contentLogErrors.count": 0,
+      "entities.max": null,
+      "chunks.max": null,
+      "packets.inPerSecond": null,
+      "packets.outPerSecond": null
+    },
+    "avgTps": null,
+    "diagnostics": {
+      "performance": {
+        "insights": [
+          {
+            "rule": "interval-every-tick",
+            "severity": "medium",
+            "file": "scripts/economy.js",
+            "line": 9,
+            "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+            "message": "system.runInterval with interval 1 runs every tick.",
+            "fix": "Use a larger interval.",
+            "evidenceMs": 4.5
+          },
+          {
+            "rule": "unbounded-collection",
+            "severity": "low",
+            "file": "scripts/economy.js",
+            "line": 2,
+            "message": "The map 'accounts' only grows.",
+            "fix": "Delete accounts of players who left."
+          },
+          {
+            "rule": "throw-in-handler",
+            "severity": "high",
+            "file": "scripts/shop.js",
+            "line": 8,
+            "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+            "message": "An event handler can throw.",
+            "fix": "Catch and report the error."
+          },
+          {
+            "rule": "export-only",
+            "severity": "low",
+            "file": "scripts/shop.js",
+            "line": 15,
+            "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+            "message": "Unmapped generated line."
+          },
+          {
+            "rule": "plain-file",
+            "severity": "low",
+            "file": "scripts/plain.js",
+            "line": 1,
+            "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+            "message": "No source map."
+          },
+          {
+            "rule": "missing-file",
+            "severity": "low",
+            "file": "scripts/missing.js",
+            "line": 3,
+            "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+            "message": "File not in the local pack."
+          }
+        ],
+        "nativeProfile": {
+          "samples": 900,
+          "intervalMs": 1,
+          "summary": {
+            "top": [
+              {
+                "function": "deposit",
+                "selfMs": 12.25,
+                "file": "scripts/economy.js",
+                "line": 5,
+                "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50"
+              },
+              {
+                "function": "(anonymous)",
+                "selfMs": 7.5,
+                "file": "scripts/economy.js",
+                "line": 11,
+                "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50"
+              },
+              {
+                "function": "priceOf",
+                "selfMs": 1.5,
+                "file": "scripts/shop.js",
+                "line": 12
+              }
+            ]
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "script",
+          "level": "error",
+          "message": "TypeError: balance is undefined",
+          "count": 2,
+          "firstAtMs": 812,
+          "frames": [
+            {
+              "source": "pack",
+              "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+              "file": "scripts/shop.js",
+              "line": 8,
+              "function": "buy"
+            }
+          ]
+        }
+      ]
+    },
+    "artifacts": {
+      "screenshots": [],
+      "profiles": [],
+      "logs": []
+    },
+    "insights": [
+      {
+        "rule": "interval-every-tick",
+        "severity": "medium",
+        "file": "scripts/economy.js",
+        "line": 9,
+        "message": "system.runInterval with interval 1 runs every tick.",
+        "fix": "Use a larger interval.",
+        "evidenceMs": 4.5,
+        "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+        "localFile": "packs/BP/scripts/economy.js",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/economy.js",
+          "line": 9,
+          "repoPath": "packs/BP/scripts/economy.js",
+          "sourcePath": "src/economy.ts",
+          "sourceLine": 17,
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/src/economy.ts#L17"
+        }
+      },
+      {
+        "rule": "unbounded-collection",
+        "severity": "low",
+        "file": "scripts/economy.js",
+        "line": 2,
+        "message": "The map 'accounts' only grows.",
+        "fix": "Delete accounts of players who left.",
+        "localFile": "packs/BP/scripts/economy.js",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/economy.js",
+          "line": 2,
+          "repoPath": "packs/BP/scripts/economy.js",
+          "sourcePath": "src/economy.ts",
+          "sourceLine": 8,
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/src/economy.ts#L8"
+        }
+      },
+      {
+        "rule": "throw-in-handler",
+        "severity": "high",
+        "file": "scripts/shop.js",
+        "line": 8,
+        "message": "An event handler can throw.",
+        "fix": "Catch and report the error.",
+        "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+        "localFile": "packs/BP/scripts/shop.js",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/shop.js",
+          "line": 8,
+          "repoPath": "packs/BP/scripts/shop.js",
+          "sourcePath": "src/shop.ts",
+          "sourceLine": 12,
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/src/shop.ts#L12"
+        }
+      },
+      {
+        "rule": "export-only",
+        "severity": "low",
+        "file": "scripts/shop.js",
+        "line": 15,
+        "message": "Unmapped generated line.",
+        "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+        "localFile": "packs/BP/scripts/shop.js",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/shop.js",
+          "line": 15,
+          "repoPath": "packs/BP/scripts/shop.js",
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/packs/BP/scripts/shop.js#L15"
+        }
+      },
+      {
+        "rule": "plain-file",
+        "severity": "low",
+        "file": "scripts/plain.js",
+        "line": 1,
+        "message": "No source map.",
+        "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+        "localFile": "packs/BP/scripts/plain.js",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/plain.js",
+          "line": 1,
+          "repoPath": "packs/BP/scripts/plain.js",
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/packs/BP/scripts/plain.js#L1"
+        }
+      },
+      {
+        "rule": "missing-file",
+        "severity": "low",
+        "file": "scripts/missing.js",
+        "line": 3,
+        "message": "File not in the local pack.",
+        "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/missing.js",
+          "line": 3
+        }
+      }
+    ],
+    "scriptHotspots": [
+      {
+        "function": "deposit",
+        "selfMs": 12.25,
+        "file": "scripts/economy.js",
+        "line": 5,
+        "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+        "localFile": "packs/BP/scripts/economy.js",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/economy.js",
+          "line": 5,
+          "repoPath": "packs/BP/scripts/economy.js",
+          "sourcePath": "src/economy.ts",
+          "sourceLine": 12,
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/src/economy.ts#L12"
+        }
+      },
+      {
+        "function": "(anonymous)",
+        "selfMs": 7.5,
+        "file": "scripts/economy.js",
+        "line": 11,
+        "packUuid": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+        "localFile": "packs/BP/scripts/economy.js",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/economy.js",
+          "line": 11,
+          "repoPath": "packs/BP/scripts/economy.js",
+          "sourcePath": "src/economy.ts",
+          "sourceLine": 19,
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/src/economy.ts#L19"
+        }
+      },
+      {
+        "function": "priceOf",
+        "selfMs": 1.5,
+        "file": "scripts/shop.js",
+        "line": 12,
+        "localFile": "packs/BP/scripts/shop.js",
+        "location": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/shop.js",
+          "line": 12,
+          "repoPath": "packs/BP/scripts/shop.js",
+          "sourcePath": "src/shop.ts",
+          "sourceLine": 17,
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/src/shop.ts#L17"
+        }
+      }
+    ],
+    "error": {
+      "code": "error",
+      "message": "run error"
+    },
+    "dashboardUrl": "https://minebud.dev/dashboard/runs/run?id=fixture"
+  },
+  "digest": {
+    "items": [
+      {
+        "severity": "error",
+        "kind": "script_error",
+        "message": "TypeError: balance is undefined",
+        "location": "src/shop.ts:12",
+        "count": 2,
+        "atMs": 812,
+        "ref": {
+          "section": "events",
+          "index": 0
+        },
+        "codeLocation": {
+          "pack": "3c5e8f0a-1b2d-4e6f-8a9b-0c1d2e3f4a50",
+          "packPath": "scripts/shop.js",
+          "line": 8,
+          "repoPath": "packs/BP/scripts/shop.js",
+          "sourcePath": "src/shop.ts",
+          "sourceLine": 12,
+          "githubUrl": "https://github.com/octo/shop-pack/blob/0123456789abcdef0123456789abcdef01234567/src/shop.ts#L12"
+        }
+      }
+    ]
+  }
+}

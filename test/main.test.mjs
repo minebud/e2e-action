@@ -41,7 +41,7 @@ test('exit-code matrix respects infra policy and always fails breached threshold
 });
 test('input validation rejects typos and path escapes before installation even without a key', async (t) => {
   const s = await setup(t, { 'INPUT_API-KEY': '' });
-  const invalid = { SDK: 'JS', 'SDK-VERSION': '1.2.3;echo', 'WAIT-TIMEOUT-MINUTES': '361', 'QUEUE-TIMEOUT-MINUTES': '0', 'MAX-MSPT-P95': 'NaN', 'MAX-SCRIPT-HOTSPOT-MS': 'Infinity', 'MAX-SCRIPT-ERRORS': '-1', 'MAX-REGRESSION-PCT': '-1', 'MIN-REGRESSION-MS': '1e999', 'FAIL-ON-INFRA': 'yes', ANNOTATIONS: '1', SUMMARY: 'FALSE', 'ON-MISSING-KEY': 'ignore', 'FAIL-ON-INSIGHT-SEVERITY': 'fatal', BASELINE: '../main', 'WORKING-DIRECTORY': '..', CONFIG: '../outside.json', JUNIT: path.join(s.root, 'outside.xml'), PATHS: '../outside.mjs', 'API-KEY': 'bad key' };
+  const invalid = { 'SDK-VERSION': '1.2.3;echo', 'WAIT-TIMEOUT-MINUTES': '361', 'QUEUE-TIMEOUT-MINUTES': '0', 'MAX-MSPT-P95': 'NaN', 'MAX-SCRIPT-HOTSPOT-MS': 'Infinity', 'MAX-SCRIPT-ERRORS': '-1', 'MAX-REGRESSION-PCT': '-1', 'MIN-REGRESSION-MS': '1e999', 'FAIL-ON-INFRA': 'yes', ANNOTATIONS: '1', SUMMARY: 'FALSE', 'ON-MISSING-KEY': 'ignore', 'FAIL-ON-INSIGHT-SEVERITY': 'fatal', BASELINE: '../main', 'WORKING-DIRECTORY': '..', CONFIG: '../outside.json', JUNIT: path.join(s.root, 'outside.xml'), PATHS: '../outside.mjs', 'API-KEY': 'bad key' };
   for (const [name, value] of Object.entries(invalid)) {
     const result = await run({ ...s.deps, env: { ...s.env, [`INPUT_${name}`]: value }, installSdk: () => assert.fail('installation must not run') });
     assert.equal(result.exitCode, 1, name);

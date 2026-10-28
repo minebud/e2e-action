@@ -26,11 +26,11 @@ test('missing customer profiler and absent metrics are not compared, never passi
   assert.match(evaluated.checks[1].reason, /server\.scriptProfiler/);
 });
 test('insight severity is ordered and missing insights count zero', () => {
-  const result = { diagnostics: { performance: { insights: [{ severity: 'info' }, { severity: 'warning' }] } } };
-  assert.equal(evaluateThresholds(result, { ...options, baseline: 'none', 'fail-on-insight-severity': 'error' }).breached, false);
-  assert.equal(evaluateThresholds(result, { ...options, baseline: 'none', 'fail-on-insight-severity': 'warning' }).breached, true);
+  const result = { diagnostics: { performance: { insights: [{ severity: 'low' }, { severity: 'medium' }] } } };
+  assert.equal(evaluateThresholds(result, { ...options, baseline: 'none', 'fail-on-insight-severity': 'high' }).breached, false);
+  assert.equal(evaluateThresholds(result, { ...options, baseline: 'none', 'fail-on-insight-severity': 'medium' }).breached, true);
   assert.deepEqual(evaluateThresholds(result, { ...options, baseline: 'none' }).checks, []);
-  assert.equal(evaluateThresholds({}, { ...options, baseline: 'none', 'fail-on-insight-severity': 'error' }).checks[0].value, 0);
+  assert.equal(evaluateThresholds({}, { ...options, baseline: 'none', 'fail-on-insight-severity': 'high' }).checks[0].value, 0);
 });
 test('regression requires BOTH percentage and absolute noise floor, strict boundaries', () => {
   for (const [current, base, pct, noise, expected] of [[12, 10, 20, 1, 'pass'], [13, 10, 20, 3, 'pass'], [12.1, 10, 20, 2, 'breach'], [1.5, 1, 20, 2, 'pass'], [11, 10, 20, 0, 'pass'], [1, 0, 20, 0, 'breach']]) {

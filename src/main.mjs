@@ -66,7 +66,7 @@ export async function run(deps = {}) {
     } else {
       if (!env.RUNNER_TEMP || !path.isAbsolute(env.RUNNER_TEMP)) throw new Error('RUNNER_TEMP must be an absolute directory.');
       const baseEnv = childEnv(env);
-      const installed = await (deps.installSdk ?? installSdk)({ sdk: inputs.sdk, version: inputs['sdk-version'], runnerTemp: env.RUNNER_TEMP, env: baseEnv, fetch: deps.fetch ?? globalThis.fetch, exec, warning, platform: deps.platform ?? process.platform, execPath: process.execPath });
+      const installed = await (deps.installSdk ?? installSdk)({ version: inputs['sdk-version'], runnerTemp: env.RUNNER_TEMP, env: baseEnv, fetch: deps.fetch ?? globalThis.fetch, exec, warning, platform: deps.platform ?? process.platform, execPath: process.execPath });
       const sdkEnv = { ...baseEnv, ...installed.env, MINEBUD_API_KEY: inputs['api-key'] };
       const help = await exec(installed.command, [...installed.args, 'help'], { env: childEnv(sdkEnv), cwd: inputs.workingDirectory, captureStdout: true, maxStdoutBytes: 1024 * 1024, timeoutMs: 30_000 });
       if (help.code !== 0) throw new Error('Installed SDK help failed; cannot detect supported flags.');

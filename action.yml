@@ -8,9 +8,6 @@ inputs:
   api-key:
     description: E2E-scoped Minebud CI key. Empty values follow on-missing-key.
     required: true
-  sdk:
-    description: SDK to install (js or python).
-    default: js
   sdk-version:
     description: Numeric SDK version override. Empty uses the integrity-verified pin.
     default: ''
@@ -54,7 +51,7 @@ inputs:
     description: Maximum script error count. Empty disables the check.
     default: ''
   fail-on-insight-severity:
-    description: Fail on insights at least this severity (error, warning, or none).
+    description: Fail on insights at least this severity (high, medium, low, or none).
     default: none
   baseline:
     description: Baseline branch (default-branch, a branch name, or none).

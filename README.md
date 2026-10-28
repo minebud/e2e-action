@@ -10,7 +10,7 @@ The action has no dependencies or build step. GitHub runs the committed JavaScri
 2. Create an E2E-scoped CI API key and save it in `secrets.MINEBUD_API_KEY`.
 3. Add the PR workflow below. Pin the action to a reviewed tag or full commit SHA.
 
-`v1` will be tagged after the CI-capable SDK release. The examples show that intended public tag; until it exists, use the reviewed action commit SHA. The current default pin is JS 0.8.0 (Python 0.6.0), which predates CI metadata, slot waiting, and local source additions. This action detects slot-waiting support rather than assuming those additions are shipped.
+`v1` will be tagged after the CI-capable SDK release. The examples show that intended public tag; until it exists, use the reviewed action commit SHA. The current default pin is JS 0.8.0, which predates CI metadata, slot waiting, and local source additions. This action detects slot-waiting support rather than assuming those additions are shipped.
 
 Set `server.speed` and `server.maxTicks` in `minebud-e2e.json` to bound spending. There are deliberately no speed or max-ticks action inputs: the SDK rejects those CLI flags.
 
@@ -33,7 +33,7 @@ jobs:
           api-key: ${{ secrets.MINEBUD_API_KEY }}
           baseline: default-branch
           max-regression-pct: 20
-          fail-on-insight-severity: error
+          fail-on-insight-severity: high
 ```
 
 ### Push-to-main deploy gate
@@ -81,7 +81,6 @@ Names and defaults match `action.yml`. Inputs are trimmed using GitHub's `INPUT_
 | Input | Default | Meaning |
 | --- | --- | --- |
 | `api-key` | empty; required in metadata | E2E-scoped CI key. An empty value follows `on-missing-key`. |
-| `sdk` | `js` | `js` or `python`. |
 | `sdk-version` | empty | Empty uses the integrity-verified pin; otherwise numeric `major.minor.patch`, 1–4 digits per component. |
 | `working-directory` | `.` | Suite directory inside `GITHUB_WORKSPACE`. |
 | `config` | `minebud-e2e.json` | Config path relative to the working directory. |
@@ -96,7 +95,7 @@ Names and defaults match `action.yml`. Inputs are trimmed using GitHub's `INPUT_
 | `max-mspt-p95` | empty | Maximum MSPT p95 in milliseconds; empty disables. |
 | `max-script-hotspot-ms` | empty | Maximum customer-script hotspot self time in milliseconds; empty disables. |
 | `max-script-errors` | empty | Maximum script error count; empty disables. |
-| `fail-on-insight-severity` | `none` | `error`, `warning`, or `none`. |
+| `fail-on-insight-severity` | `none` | `high`, `medium`, `low`, or `none`. |
 | `baseline` | `none` | `default-branch`, a literal branch name, or `none`. |
 | `max-regression-pct` | `20` | Maximum relative regression percentage, together with the absolute noise floor. |
 | `min-regression-ms` | `2` | Absolute regression noise floor; both limits must be exceeded. |
@@ -124,7 +123,7 @@ Outputs are written to `GITHUB_OUTPUT` using collision-checked random multiline 
 | `max-mspt-p95` | `metrics["mspt.p95"]` | Current value exceeds the limit. |
 | `max-script-hotspot-ms` | Maximum `diagnostics.performance.nativeProfile.top[].selfMs` with nonempty `packUuid` | Customer script self time exceeds the limit. Requires `server.scriptProfiler`; engine-only rows do not count. |
 | `max-script-errors` | `metrics["scriptErrors.count"]` | Count exceeds the limit. |
-| `fail-on-insight-severity` | `diagnostics.performance.insights[]` | `error`: any error. `warning`: any warning or error. `none`: disabled. A missing insights array counts as zero insights. |
+| `fail-on-insight-severity` | `insights[]` (SDK 0.9+), else `diagnostics.performance.insights[]` | `high`: any high. `medium`: any medium or high. `low`: any insight. `none`: disabled. A missing insights array counts as zero insights. |
 | Baseline MSPT/hotspot regression | Current MSPT p95 / hotspot vs baseline `msptP95` / `scriptHotMs` | Both `current > baseline × (1 + max-regression-pct / 100)` **and** `current − baseline > min-regression-ms`. Equality is not a breach. |
 
 Flat dotted metrics take precedence over a nested-path fallback. Missing metrics, missing/null baselines, failed baseline requests, and mismatched baseline speed or server type are **not compared**, never a pass or failure. Standard and Fast server timings are not comparable. The baseline API is queried with the current suite name, server type, and speed; any dimensions present in the returned baseline are also checked.
@@ -162,27 +161,24 @@ New `sourcePath` and `repoPath` are **repository-relative**, resolved against `G
 
 Summary links prefer the supplied `githubUrl` only after strict validation: a string of at most 2048 characters, `GITHUB_SERVER_URL` unset or exactly `https://github.com`, HTTPS host exactly `github.com`, no credentials, explicit port or query, and `/<owner>/<repo>/blob/<ref>/<path...>` matching `GITHUB_REPOSITORY` case-insensitively. Decoded path segments must not be `.` or `..`; the fragment must be empty, `#L<n>`, or `#L<n>-L<m>` for positive line numbers. Raw whitespace, controls, and any of `< > " ' ( )`, backticks, square/curly brackets, pipes or backslashes are forbidden. The summary emits the validated URL's `href`. Missing/invalid URLs fall back to a source link built from the selected contained location and the PR head SHA (otherwise `GITHUB_SHA`), then escaped `path:line` text, then nothing. GitHub Enterprise Server links are not supported, including built-link fallbacks.
 
-Annotations prioritize failing steps, error insights, error digest findings, the top customer hotspot at its severity, warning insights, warning digest findings, then notices. The top customer hotspot (nonempty `packUuid`, finite nonnegative `selfMs`) gets a `Script hotspot` warning with `<function> self time <ms> ms` when locatable, escalated to an error only when `max-script-hotspot-ms` or `hotspot-regression` breaches. Digest items annotate only `error`/`warning` severities with an object `location`: title is `kind`, message is `message` plus ` (×<count>)` for count > 1. Legacy SDK 0.8.0 string/null digest locations are ignored. Duplicate level/file/line/title/message candidates are removed before each severity's cap of 10 **per step**; capped items and invalid insight/step/digest sources appear in annotation overflow. Workflow-command titles/messages are bounded to 200/4000 characters and escaped separately from summary text.
+Annotations prioritize failing steps, high insights (errors), error digest findings, the top customer hotspot at its severity, medium insights (warnings), warning digest findings, then low insights (notices). The top customer hotspot (nonempty `packUuid`, finite nonnegative `selfMs`) gets a `Script hotspot` warning with `<function> self time <ms> ms` when locatable, escalated to an error only when `max-script-hotspot-ms` or `hotspot-regression` breaches. Digest items annotate only `error`/`warning` severities with an object `location`: title is `kind`, message is `message` plus ` (×<count>)` for count > 1. Legacy SDK 0.8.0 string/null digest locations are ignored. Duplicate level/file/line/title/message candidates are removed before each severity's cap of 10 **per step**; capped items and invalid insight/step/digest sources appear in annotation overflow. Workflow-command titles/messages are bounded to 200/4000 characters and escaped separately from summary text.
 
 Run details (report, profiles, artifacts) expire **24 h** after the run, and the dashboard link stops working then. The job summary and artifacts you upload follow your GitHub retention settings.
 
 ## Installation, concurrency, and SDK compatibility
 
-`sdk-pins.json` pins JS 0.8.0 (SHA-256 `aa0f7011c86355b55e970f7e03784248d375d46adb6cc850a29242f17432b07f`) and Python 0.6.0 (SHA-256 `b6b0edc031e828f677d0bb2c6c5924f8d5760adcb18be14b78a8682cc016ea5a`). An explicit version equal to the pin still verifies its checksum. A different `sdk-version` emits a warning that integrity is not verified. Update pins only after reviewing the SDK release and artifact digest.
+`sdk-pins.json` pins JS 0.8.0 (SHA-256 `aa0f7011c86355b55e970f7e03784248d375d46adb6cc850a29242f17432b07f`). An explicit version equal to the pin still verifies its checksum. A different `sdk-version` emits a warning that integrity is not verified. Update pins only after reviewing the SDK release and artifact digest.
 
-JavaScript downloads are limited to 32 MiB, use no redirects, time out after about 60 seconds, and retry network/5xx failures up to three attempts. SHA-256 is checked in constant time before offline npm installation with lifecycle scripts disabled. Python uses pip with a hash-pinned requirements file, no dependencies or index, and wheels only. It selects `python3` if available, otherwise `python`, and sets `PYTHONPATH` to the isolated installation target. Windows npm invocation quotes action-controlled paths and rejects paths containing command-expansion characters.
+JavaScript downloads are limited to 32 MiB, use no redirects, time out after about 60 seconds, and retry network/5xx failures up to three attempts. SHA-256 is checked in constant time before offline npm installation with lifecycle scripts disabled. Windows npm invocation quotes action-controlled paths and rejects paths containing command-expansion characters.
 
 Minebud permits one active run per account. Use workflow concurrency as shown for release/nightly jobs. A newer SDK exposing `--wait-for-slot` in its `help` receives `queue-timeout-minutes × 60` and `wait-timeout-minutes × 60`. The pinned SDK lacks the flag: the action emits one notice, omits it, and clamps `--wait-timeout` to at most 900 seconds. Its shorter API retry budget may still return an account-busy error.
 
-Compatibility assumptions for the not-yet-shipped SDK contract:
+SDK 0.9 result contract (pinned by `test/sdk-contract.test.mjs`, generated from the SDK's own `localizeResult` and `digest`):
 
-- JS and Python have CLI flag parity (`run`, `help`, `--json`, `--out`, `--junit`, `--no-save`, wait flags) and the shared result/error envelope schemas. Python execution has not been exercised against a live service here.
-- New SDKs automatically attach CI metadata when `GITHUB_ACTIONS=true`. The action neither constructs nor uploads a second metadata format; the optional result `ci` echo is not required for reporting.
-- All new `location`/`githubUrl` fields are optional; `test/fixtures/locations-contract.json` explicitly models implementer C's upcoming contract, not a released SDK receipt. The action reads nested diagnostics and the CLI envelope's `digest.items`, not a second uploaded schema.
-- Complete `sourcePath`/`sourceLine` pairs take precedence over `repoPath`/`line`, both workspace-relative. Legacy step sources `{file, line, column?}` and insight/hotspot `localFile` are optional and working-directory-relative or absolute. Missing sources remain summary-only; string digest locations are never parsed as paths.
-- Supplied GitHub URLs are untrusted and validated as described above; absent/invalid URLs use the contained-location fallback. Source mapping is performed by the SDK, not inferred from pack names by the action.
-- Native profile customer rows, insights, and local source mapping may be absent in pinned releases. Missing profile metrics are not compared; missing insights count zero, as described above.
-- Baseline `finishedAt` accepts an epoch integer or ISO timestamp; optional `serverType`/`speed` are checked when supplied. Missing/null `runId`, `sha`, and performance metrics are allowed; unknown additive fields are ignored. Default-branch event metadata is optional, with schedule-only `GITHUB_REF_NAME` fallback.
+- New SDKs attach CI metadata when `GITHUB_ACTIONS=true`; the action neither constructs nor uploads a second metadata format.
+- Insights and hotspots are read from the SDK's localized top-level `insights[]` and `scriptHotspots[]`, falling back to `diagnostics.performance.insights[]` and `nativeProfile.summary.top[]` for older SDKs. Insight severities are the host's `high`, `medium` and `low`.
+- `location` objects carry `repoPath`/`line` and, when a source map resolves, `sourcePath`/`sourceLine`, both workspace-relative, plus an optional `githubUrl`. Complete source pairs take precedence. Digest items carry the object in `codeLocation`; their string `location` is display text and is never parsed as a path.
+- Legacy step sources `{file, line, column?}` and insight/hotspot `localFile` are working-directory-relative or absolute. Missing sources remain summary-only.
 
 ## Security
 

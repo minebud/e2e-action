@@ -29,7 +29,7 @@ function result() {
         { function: 'native', selfMs: 200 },
         { function: 'update', selfMs: 12, packUuid: 'pack-1', file: 'scripts/main.js', line: 9 },
       ] },
-      insights: [{ severity: 'warning', rule: 'slow-tick', message: 'Too much work.', fix: 'Batch updates.', localFile: 'scripts/main.js', line: 9 }],
+      insights: [{ severity: 'medium', rule: 'slow-tick', message: 'Too much work.', fix: 'Batch updates.', localFile: 'scripts/main.js', line: 9 }],
     } },
     billing: { chargedCredits: 200, ticks: 200, speed: 'standard' },
   };
@@ -71,14 +71,14 @@ test('annotations rank failures first and cap exactly ten of each severity', (t)
   const options = workspace(t);
   const value = result();
   value.tests[0].steps = Array.from({ length: 12 }, (_, index) => ({ id: `s${index}`, status: index % 2 ? 'error' : 'failed', error: { message: `failure ${index}` }, source: { file: 'test.mjs', line: index + 1 } }));
-  value.diagnostics.performance.insights = ['info', 'warning', 'error'].flatMap((severity) => Array.from({ length: 12 }, (_, index) => ({ severity, rule: `${severity}-${index}`, message: 'message', fix: 'fix', localFile: 'script.js', line: index + 1 })));
+  value.diagnostics.performance.insights = ['low', 'medium', 'high'].flatMap((severity) => Array.from({ length: 12 }, (_, index) => ({ severity, rule: `${severity}-${index}`, message: 'message', fix: 'fix', localFile: 'script.js', line: index + 1 })));
   const annotations = buildAnnotations(value, options);
   assert.deepEqual(['error', 'warning', 'notice'].map((level) => annotations.emitted.filter((item) => item.level === level).length), [10, 10, 10]);
   assert.deepEqual(annotations.emitted.slice(0, 10).map((item) => item.title), Array.from({ length: 10 }, (_, index) => `warps/s${index}`));
   assert.equal(annotations.overflow.length, 18);
   assert.ok(annotations.overflow.every((item) => item.reason === 'annotation limit'));
-  assert.equal(annotations.emitted[10].title, 'warning-0');
-  assert.equal(annotations.emitted[20].title, 'info-0');
+  assert.equal(annotations.emitted[10].title, 'medium-0');
+  assert.equal(annotations.emitted[20].title, 'low-0');
 });
 
 test('contained paths reject traversal, controls, outside absolute paths, and symlink ancestors', (t) => {
@@ -209,9 +209,9 @@ test('summary keeps stable severity order and limits failures, steps and insight
   const ctx = context(options);
   ctx.result.tests = Array.from({ length: 52 }, (_, index) => ({ id: `t${index}`, name: `test-${index}`, status: 'failed', steps: Array.from({ length: 22 }, (_, step) => ({ id: `s${step}`, status: 'failed', error: 'failure' })) }));
   ctx.result.diagnostics.performance.insights = [
-    ...Array.from({ length: 5 }, (_, index) => ({ severity: 'info', rule: `info-${index}` })),
-    ...Array.from({ length: 6 }, (_, index) => ({ severity: 'warning', rule: `warning-${index}` })),
-    ...Array.from({ length: 2 }, (_, index) => ({ severity: 'error', rule: `error-${index}` })),
+    ...Array.from({ length: 5 }, (_, index) => ({ severity: 'low', rule: `info-${index}` })),
+    ...Array.from({ length: 6 }, (_, index) => ({ severity: 'medium', rule: `warning-${index}` })),
+    ...Array.from({ length: 2 }, (_, index) => ({ severity: 'high', rule: `error-${index}` })),
   ];
   const output = renderSummary(ctx);
   assert.ok(output.includes('and 2 more failing tests'));

@@ -194,7 +194,7 @@ test('dedupe uses level, resolved path, line, title and message before per-level
   const ctx = context(t);
   insightOnly(ctx);
   const insights = [];
-  for (const severity of ['error', 'warning', 'info']) {
+  for (const severity of ['high', 'medium', 'low']) {
     for (let index = 0; index < 12; index++) {
       const item = { severity, rule: `${severity}-${index}`, message: `message-${index}`, location: { repoPath: 'src/same.ts', line: index + 1 } };
       insights.push(item, structuredClone(item));
@@ -204,15 +204,15 @@ test('dedupe uses level, resolved path, line, title and message before per-level
   const output = annotations(ctx);
   for (const level of ['error', 'warning', 'notice']) assert.equal(output.emitted.filter((item) => item.level === level).length, 10);
   assert.equal(output.overflow.filter((item) => item.reason === 'annotation limit').length, 6);
-  assert.deepEqual(output.emitted.slice(0, 10).map((item) => item.title), Array.from({ length: 10 }, (_, i) => `error-${i}`));
+  assert.deepEqual(output.emitted.slice(0, 10).map((item) => item.title), Array.from({ length: 10 }, (_, i) => `high-${i}`));
   ctx.result.diagnostics.performance.insights = [
-    { severity: 'error', rule: 'same', message: 'same', localFile: '../src/same.ts', line: 1 },
-    { severity: 'error', rule: 'same', message: 'same', location: { repoPath: 'src/same.ts', line: 1 } },
-    { severity: 'warning', rule: 'same', message: 'same', location: { repoPath: 'src/same.ts', line: 1 } },
-    { severity: 'error', rule: 'same', message: 'different', location: { repoPath: 'src/same.ts', line: 1 } },
-    { severity: 'error', rule: 'different', message: 'same', location: { repoPath: 'src/same.ts', line: 1 } },
-    { severity: 'error', rule: 'same', message: 'same', location: { repoPath: 'src/same.ts', line: 2 } },
-    { severity: 'error', rule: 'same', message: 'same', location: { repoPath: 'src/other.ts', line: 1 } },
+    { severity: 'high', rule: 'same', message: 'same', localFile: '../src/same.ts', line: 1 },
+    { severity: 'high', rule: 'same', message: 'same', location: { repoPath: 'src/same.ts', line: 1 } },
+    { severity: 'medium', rule: 'same', message: 'same', location: { repoPath: 'src/same.ts', line: 1 } },
+    { severity: 'high', rule: 'same', message: 'different', location: { repoPath: 'src/same.ts', line: 1 } },
+    { severity: 'high', rule: 'different', message: 'same', location: { repoPath: 'src/same.ts', line: 1 } },
+    { severity: 'high', rule: 'same', message: 'same', location: { repoPath: 'src/same.ts', line: 2 } },
+    { severity: 'high', rule: 'same', message: 'same', location: { repoPath: 'src/other.ts', line: 1 } },
   ];
   assert.equal(annotations(ctx).emitted.length, 6);
 });

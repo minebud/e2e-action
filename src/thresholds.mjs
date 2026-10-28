@@ -7,10 +7,26 @@ export function metric(result, key) {
   return typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : null;
 }
 
+// Host insight severities (diagnostics/v1), most severe first, with their annotation level.
+export const SEVERITIES = [['high', 'error'], ['medium', 'warning'], ['low', 'notice']];
+const rank = { low: 0, medium: 1, high: 2 };
+
+// SDK >= 0.9 adds localized copies (with repo locations); older results only carry the host report.
+export function insights(result) {
+  const rows = Array.isArray(result?.insights) ? result.insights : result?.diagnostics?.performance?.insights;
+  return Array.isArray(rows) ? rows : [];
+}
+
+export function hotspots(result) {
+  const profile = result?.diagnostics?.performance?.nativeProfile;
+  const rows = Array.isArray(result?.scriptHotspots) ? result.scriptHotspots : profile?.summary?.top ?? profile?.top;
+  return Array.isArray(rows) ? rows : [];
+}
+
 export function topHotspot(result) {
-  const rows = result?.diagnostics?.performance?.nativeProfile?.top;
+  const rows = hotspots(result);
   let top = null;
-  for (const row of Array.isArray(rows) ? rows : []) {
+  for (const row of rows) {
     if (typeof row?.packUuid !== 'string' || !row.packUuid.trim()) continue;
     if (typeof row.selfMs !== 'number' || !Number.isFinite(row.selfMs) || row.selfMs < 0) continue;
     if (!top || row.selfMs > top.selfMs) top = row;
@@ -32,9 +48,7 @@ export function evaluateThresholds(result, inputs, baseline) {
   absolute('max-script-errors', 'Script errors', metric(result, 'scriptErrors.count'), 'Script error count is missing.');
   const severity = inputs['fail-on-insight-severity'];
   if (severity && severity !== 'none') {
-    const order = { info: 0, warning: 1, error: 2 };
-    const insights = result?.diagnostics?.performance?.insights;
-    const count = (Array.isArray(insights) ? insights : []).filter((i) => order[i?.severity] >= order[severity]).length;
+    const count = insights(result).filter((i) => rank[i?.severity] >= rank[severity]).length;
     checks.push({ id: 'fail-on-insight-severity', label: `Insights at least ${severity}`, value: count, limit: 0, status: count > 0 ? 'breach' : 'pass' });
   }
   if (inputs.baseline && inputs.baseline !== 'none') {

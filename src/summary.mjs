@@ -1,5 +1,5 @@
-import { containedPath, locationSource } from './annotate.mjs';
-import { metric, topHotspot } from './thresholds.mjs';
+import { codeLocation, containedPath, locationSource } from './annotate.mjs';
+import { SEVERITIES, hotspots, insights as insightRows, metric, topHotspot } from './thresholds.mjs';
 
 const MAX_BYTES = 1_000_000;
 const TRUNCATED = '\nSummary truncated: additional details were omitted or shortened to fit reporting limits.\n';
@@ -81,7 +81,7 @@ export function renderSummary(ctx = {}) {
   const number = (value, suffix = '') => finite(value) ? `${escape(value)}${suffix}` : 'unavailable';
   const location = (item, legacy) => {
     const source = locationSource(item?.location, legacy);
-    const link = githubUrl(item?.githubUrl, ctx) ?? sourceLink(source, ctx);
+    const link = githubUrl(item?.location?.githubUrl ?? item?.githubUrl, ctx) ?? sourceLink(source, ctx);
     if (link) return `[Source](${link})`;
     return source?.file == null ? '' : `${escape(source.file, 500)}${integer(source.line) ? `:${source.line}` : ''}`;
   };
@@ -182,9 +182,9 @@ export function renderSummary(ctx = {}) {
   add('Failing tests and steps', failureLines());
 
   function* insightLines() {
-    const insights = array(result.diagnostics?.performance?.insights);
+    const insights = insightRows(result);
     let shown = 0, total = 0;
-    for (const severity of ['error', 'warning', 'info']) {
+    for (const [severity] of SEVERITIES) {
       for (const insight of insights) {
         if (insight?.severity !== severity) continue;
         total++;
@@ -201,7 +201,7 @@ export function renderSummary(ctx = {}) {
   add('Top insights', insightLines());
 
   function* hotspotLines() {
-    const rows = array(result.diagnostics?.performance?.nativeProfile?.top)
+    const rows = hotspots(result)
       .filter((row) => typeof row?.packUuid === 'string' && row.packUuid.trim() && finite(row.selfMs))
       .sort((a, b) => b.selfMs - a.selfMs).slice(0, 5);
     if (!rows.length) return;
@@ -217,8 +217,9 @@ export function renderSummary(ctx = {}) {
 
   function* digestLines() {
     for (const item of array(ctx.digest?.items)) {
-      if (!item?.location || typeof item.location !== 'object' || Array.isArray(item.location)) continue;
-      const source = location(item);
+      const found = codeLocation(item);
+      if (!found) continue;
+      const source = location({ location: found });
       yield `- ${escape(item.severity, 30)}: ${escape(item.kind, 200)} — ${escape(item.message)}${item.count > 1 ? ` (×${escape(item.count, 100)})` : ''}${source ? ` — ${source}` : ''}`;
     }
   }

@@ -27,7 +27,7 @@ test('pinned real JS SDK installs offline and completes the golden suite on a lo
     assert.equal(options.redirect, 'error');
     return new Response(bytes);
   };
-  const installed = await installSdk({ sdk: 'js', runnerTemp, env: { PATH: process.env.PATH, HOME: process.env.HOME }, fetch: offlineFetch, exec, warning: () => assert.fail('pinned install must verify integrity') });
+  const installed = await installSdk({ runnerTemp, env: { PATH: process.env.PATH, HOME: process.env.HOME }, fetch: offlineFetch, exec, warning: () => assert.fail('pinned install must verify integrity') });
   const packageRoot = path.dirname(path.dirname(installed.args[0]));
   const golden = path.join(packageRoot, 'fixtures/golden/warps');
   await cp(golden, workspace, { recursive: true });

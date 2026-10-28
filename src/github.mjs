@@ -6,7 +6,7 @@ import { StringDecoder } from 'node:string_decoder';
 import { containedPath, escapeData } from './annotate.mjs';
 
 export const DEFAULTS = Object.freeze({
-  'api-key': '', sdk: 'js', 'sdk-version': '', 'working-directory': '.', config: 'minebud-e2e.json', paths: '', junit: '',
+  'api-key': '', 'sdk-version': '', 'working-directory': '.', config: 'minebud-e2e.json', paths: '', junit: '',
   'queue-timeout-minutes': '15', 'wait-timeout-minutes': '30', 'on-missing-key': 'skip', 'fail-on-infra': 'true',
   annotations: 'true', summary: 'true', 'max-mspt-p95': '', 'max-script-hotspot-ms': '', 'max-script-errors': '',
   'fail-on-insight-severity': 'none', baseline: 'none', 'max-regression-pct': '20', 'min-regression-ms': '2',
@@ -34,7 +34,7 @@ export function parseInputs(env) {
     return [name, raw === undefined || String(raw).trim() === '' ? fallback : String(raw).trim()];
   }));
   if (inputs['api-key'] && !/^[\x21-\x7e]{1,4096}$/.test(inputs['api-key'])) throw new Error('api-key must be a single-line printable ASCII value without whitespace (maximum 4096 characters).');
-  for (const [name, values] of Object.entries({ sdk: ['js', 'python'], 'on-missing-key': ['skip', 'fail'], 'fail-on-insight-severity': ['none', 'warning', 'error'] })) {
+  for (const [name, values] of Object.entries({ 'on-missing-key': ['skip', 'fail'], 'fail-on-insight-severity': ['none', 'low', 'medium', 'high'] })) {
     if (!values.includes(inputs[name])) throw new Error(`${name} must be ${values.join(' or ')}.`);
   }
   if (inputs['sdk-version'] && !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(inputs['sdk-version'])) throw new Error('sdk-version must be a numeric major.minor.patch version (1–4 digits per component).');

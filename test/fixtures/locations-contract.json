@@ -2,25 +2,137 @@
   "_fixtureNotes": "Forward implementer-C contract, NOT captured SDK 0.8.0 output. Optional location pairs are atomic and workspace-relative; pack/packPath are metadata, never local resolution roots. Digest belongs to the CLI envelope, not result. githubUrl is an optional exact validated source href.",
   "schema": "minebud-e2e-cli/1",
   "exitCode": 1,
-  "digest": { "items": [
-    { "severity": "error", "kind": "script-error", "message": "digest-error-marker", "count": 3, "location": { "pack": "customer", "packPath": "scripts/built.js", "repoPath": "packs/customer/scripts/built.js", "line": 8, "sourcePath": "src/digest.ts", "sourceLine": 18 } },
-    { "severity": "warning", "kind": "script-warning", "message": "digest-warning-marker", "count": 2, "location": { "repoPath": "src/warning.ts", "line": 19 } }
-  ] },
+  "digest": {
+    "items": [
+      {
+        "severity": "error",
+        "kind": "script-error",
+        "message": "digest-error-marker",
+        "count": 3,
+        "location": {
+          "pack": "customer",
+          "packPath": "scripts/built.js",
+          "repoPath": "packs/customer/scripts/built.js",
+          "line": 8,
+          "sourcePath": "src/digest.ts",
+          "sourceLine": 18
+        }
+      },
+      {
+        "severity": "warning",
+        "kind": "script-warning",
+        "message": "digest-warning-marker",
+        "count": 2,
+        "location": {
+          "repoPath": "src/warning.ts",
+          "line": 19
+        }
+      }
+    ]
+  },
   "result": {
-    "schema": "minebud-e2e-result/1", "runId": "run_location_contract", "status": "failed",
-    "name": "location-contract", "server": { "type": "endstone", "speed": "standard" },
-    "summary": { "tests": 1, "passed": 0, "failed": 1, "errored": 0, "skipped": 0 },
-    "tests": [{ "id": "contract", "name": "location contract", "status": "failed", "steps": [{ "id": "step", "status": "failed", "error": { "message": "step-marker" }, "source": { "file": "legacy-step.js", "line": 91 }, "location": { "pack": "customer", "packPath": "scripts/built.js", "repoPath": "packs/customer/scripts/built.js", "line": 8, "sourcePath": "src/step.ts", "sourceLine": 11 } }] }],
-    "diagnostics": { "performance": {
-      "insights": [
-        { "severity": "error", "rule": "error-rule", "message": "insight-error-marker", "localFile": "legacy-insight.js", "line": 92, "location": { "repoPath": "packs/customer/scripts/built.js", "line": 8, "sourcePath": "src/insight.ts", "sourceLine": 12 } },
-        { "severity": "warning", "rule": "warning-rule", "message": "insight-warning-marker", "githubUrl": "https://github.com/minebud/example/blob/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/src/insight-warning.ts#L13", "location": { "repoPath": "src/insight-warning.ts", "line": 13 } },
-        { "severity": "info", "rule": "notice-rule", "message": "notice-marker", "location": { "repoPath": "src/notice.ts", "line": 14 } }
-      ],
-      "nativeProfile": { "top": [
-        { "function": "native-marker", "selfMs": 999 },
-        { "function": "hotspot-marker", "packUuid": "customer-pack", "selfMs": 20, "file": "legacy-hotspot.js", "line": 93, "githubUrl": "https://github.com/minebud/example/blob/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/src/hotspot.ts#L15", "location": { "repoPath": "packs/customer/scripts/built.js", "line": 8, "sourcePath": "src/hotspot.ts", "sourceLine": 15 } }
-      ] }
-    } }
+    "schema": "minebud-e2e-result/1",
+    "runId": "run_location_contract",
+    "status": "failed",
+    "name": "location-contract",
+    "server": {
+      "type": "endstone",
+      "speed": "standard"
+    },
+    "summary": {
+      "tests": 1,
+      "passed": 0,
+      "failed": 1,
+      "errored": 0,
+      "skipped": 0
+    },
+    "tests": [
+      {
+        "id": "contract",
+        "name": "location contract",
+        "status": "failed",
+        "steps": [
+          {
+            "id": "step",
+            "status": "failed",
+            "error": {
+              "message": "step-marker"
+            },
+            "source": {
+              "file": "legacy-step.js",
+              "line": 91
+            },
+            "location": {
+              "pack": "customer",
+              "packPath": "scripts/built.js",
+              "repoPath": "packs/customer/scripts/built.js",
+              "line": 8,
+              "sourcePath": "src/step.ts",
+              "sourceLine": 11
+            }
+          }
+        ]
+      }
+    ],
+    "diagnostics": {
+      "performance": {
+        "insights": [
+          {
+            "severity": "high",
+            "rule": "error-rule",
+            "message": "insight-error-marker",
+            "localFile": "legacy-insight.js",
+            "line": 92,
+            "location": {
+              "repoPath": "packs/customer/scripts/built.js",
+              "line": 8,
+              "sourcePath": "src/insight.ts",
+              "sourceLine": 12
+            }
+          },
+          {
+            "severity": "medium",
+            "rule": "warning-rule",
+            "message": "insight-warning-marker",
+            "githubUrl": "https://github.com/minebud/example/blob/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/src/insight-warning.ts#L13",
+            "location": {
+              "repoPath": "src/insight-warning.ts",
+              "line": 13
+            }
+          },
+          {
+            "severity": "low",
+            "rule": "notice-rule",
+            "message": "notice-marker",
+            "location": {
+              "repoPath": "src/notice.ts",
+              "line": 14
+            }
+          }
+        ],
+        "nativeProfile": {
+          "top": [
+            {
+              "function": "native-marker",
+              "selfMs": 999
+            },
+            {
+              "function": "hotspot-marker",
+              "packUuid": "customer-pack",
+              "selfMs": 20,
+              "file": "legacy-hotspot.js",
+              "line": 93,
+              "githubUrl": "https://github.com/minebud/example/blob/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/src/hotspot.ts#L15",
+              "location": {
+                "repoPath": "packs/customer/scripts/built.js",
+                "line": 8,
+                "sourcePath": "src/hotspot.ts",
+                "sourceLine": 15
+              }
+            }
+          ]
+        }
+      }
+    }
   }
 }

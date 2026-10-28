@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { lstatSync, realpathSync } from 'node:fs';
-import { topHotspot } from './thresholds.mjs';
+import { SEVERITIES, insights as insightRows, topHotspot } from './thresholds.mjs';
 
 const controls = /[\u0000-\u001f\u007f-\u009f]/u;
 const array = (value) => Array.isArray(value) ? value : [];
@@ -75,6 +75,14 @@ export function locationSource(location, legacy) {
   return legacy;
 }
 
+// SDK digest items keep a display string in location and the object in codeLocation.
+export function codeLocation(item) {
+  for (const value of [item?.codeLocation, item?.location]) {
+    if (value && typeof value === 'object' && !Array.isArray(value)) return value;
+  }
+  return null;
+}
+
 function candidate(level, title, message, source) {
   return { level, title: bounded(title, 200), message: bounded(message, 4000),
     file: source?.file, line: source?.line, column: source?.column, repositoryRelative: source?.repositoryRelative };
@@ -90,8 +98,8 @@ export function buildAnnotations(result, options = {}) {
         locationSource(step.location, step.source)));
     }
   }
-  const insights = array(result?.diagnostics?.performance?.insights);
-  const digest = array(options.digest?.items).filter((item) => item?.location && typeof item.location === 'object' && !Array.isArray(item.location));
+  const insights = insightRows(result);
+  const digest = array(options.digest?.items).map((item) => ({ ...item, location: codeLocation(item) })).filter((item) => item.location);
   const addInsights = (severity, level) => {
     for (const insight of insights) {
       if (insight?.severity !== severity) continue;
@@ -106,7 +114,8 @@ export function buildAnnotations(result, options = {}) {
         locationSource(item.location)));
     }
   };
-  addInsights('error', 'error');
+  const [[high, error], [medium, warning], [low, notice]] = SEVERITIES;
+  addInsights(high, error);
   addDigest('error');
   const hotspot = topHotspot(result);
   const source = locationSource(hotspot?.location, { file: hotspot?.localFile, line: hotspot?.line });
@@ -116,9 +125,9 @@ export function buildAnnotations(result, options = {}) {
     candidates.push(candidate(escalated ? 'error' : 'warning', 'Script hotspot',
       `${text(hotspot.function ?? hotspot.name ?? hotspot.fn ?? 'unknown')} self time ${hotspot.selfMs} ms`, source));
   }
-  addInsights('warning', 'warning');
+  addInsights(medium, warning);
   addDigest('warning');
-  addInsights('info', 'notice');
+  addInsights(low, notice);
   const lines = [], emitted = [], overflow = [];
   const counts = { error: 0, warning: 0, notice: 0 };
   const seen = new Set();
