@@ -24,7 +24,7 @@ test('pinned real JS SDK installs offline and completes the golden suite on a lo
   for (const key of Object.keys(env)) if (key.startsWith('INPUT_') && key !== 'INPUT_API-KEY') delete env[key];
   const bytes = await readFile(artifact);
   const offlineFetch = async (url, options) => {
-    assert.equal(url, 'https://minebud.dev/e2e/minebud-e2e-0.9.0.tgz');
+    assert.equal(url, 'https://minebud.dev/e2e/minebud-e2e-0.11.0.tgz');
     assert.equal(options.redirect, 'error');
     return new Response(bytes);
   };
